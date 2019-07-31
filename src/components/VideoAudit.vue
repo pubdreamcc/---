@@ -6,7 +6,7 @@
       <el-form-item><el-date-picker type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" v-model="formInline.date"></el-date-picker></el-form-item>
       <el-form-item><el-button type="primary" @click="query(formInline)">查询</el-button></el-form-item>
     </el-form>
-    <el-tabs type="card" value="first">
+    <el-tabs type="card" :value="tabName" @tab-click='handleTabClick'>
       <el-tab-pane label="未发布" name="first">
         <el-table :data="tableData">
           <el-table-column prop="videoTitle" label="微视频" width="700" align="center">
@@ -19,7 +19,7 @@
                     <span class="videoTime">{{scope.row.videoTimeLong}}</span>
                   </div>
                 </div>
-                <h2 class="videoTitle" v-html="scope.row.newsTitle"></h2>
+                <h2 class="videoTitle" v-html="scope.row.newsTitle" :title="scope.row.newsTitle"></h2>
                 <p class="videoSource"><span>来源：{{scope.row.sourceWeb}}</span><span>发布时间：{{scope.row.videoDate}}</span></p>
               </el-card>
             </template>
@@ -53,7 +53,7 @@
                     <span class="videoTime">{{scope.row.videoTimeLong}}</span>
                   </div>
                 </div>
-                <h2 class="videoTitle" v-html="scope.row.newsTitle"></h2>
+                <h2 class="videoTitle" v-html="scope.row.newsTitle" :title="scope.row.newsTitle"></h2>
                 <p class="videoSource"><span>来源：{{scope.row.sourceWeb}}</span><span>发布时间：{{scope.row.videoDate}}</span></p>
               </el-card>
             </template>
@@ -95,7 +95,8 @@ export default {
       tableData2: [],
       totalVideo: 0,
       totalVideo2: 0,
-      index: 1
+      index: 1,
+      tabName: '' // 表格展示的选项名称
     }
   },
   methods: {
@@ -111,6 +112,10 @@ export default {
           item.videoTimeLong = this.formatTime(item.videoTimeLong)
         })
       })
+    },
+    handleTabClick (tab) {
+      this.tabName = tab.paneName
+      sessionStorage.setItem('tabName', tab.paneName)
     },
     handleCurrentChange2 (val) {
       // 获取发布后的内容
@@ -194,6 +199,7 @@ export default {
     }
   },
   mounted () {
+    this.tabName = sessionStorage.getItem('tabName') || 'first'
     // 查询未发布
     axios.get(`http://www.gjzxedu.com/crawler/getnewslist?page=1&rows=10&release=0&mediaType=1`).then(res => {
       const ret = res.data
