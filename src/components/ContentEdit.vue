@@ -8,7 +8,8 @@
   v-if="$route.query.mediaType == 1"
   >
   </video-player>
-  <quill-editor v-model="newsContent"></quill-editor>
+  <el-input placeholder="请输入内容" v-if="$route.query.mediaType == 1" v-model="newsContent"></el-input>
+  <quill-editor v-model="newsContent" v-if="$route.query.mediaType === undefined"></quill-editor>
   <el-button type="primary" v-if="this.$route.query.newsTrackID" @click="save">保存</el-button>
   <el-button type="success" v-if="this.$route.query.newsTrackID" @click="publish">发布</el-button>
 </div>
@@ -106,7 +107,12 @@ export default {
       // 发布新闻
       if (confirm('确定发布吗？')) {
         // 先保存新闻内容
-        let params = {'content': this.newsContent, 'newsTrackID': this.$route.query.newsTrackID}
+        let params
+        if (this.$route.query.mediaType) {
+          params = {'newsTitle': this.newsContent, 'newsTrackID': this.$route.query.newsTrackID, 'mediaType': 1}
+        } else {
+          params = {'content': this.newsContent, 'newsTrackID': this.$route.query.newsTrackID, 'mediaType': 0}
+        }
         axios.post(`http://www.gjzxedu.com/crawler/updataNewsDetal`, qs.stringify(params), {
           headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
         }).then(res => {
@@ -147,6 +153,11 @@ export default {
       left: 50% !important;
       top: 50% !important;
       transform: translate(-50%, -50%);
+    }
+    .el-input{
+      width: 80%;
+      margin-left: 10%;
+      display: block;
     }
   }
 </style>
