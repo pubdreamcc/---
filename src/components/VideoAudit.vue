@@ -20,7 +20,7 @@
                   </div>
                 </div>
                 <h2 class="videoTitle" v-html="scope.row.newsTitle" :title="scope.row.newsTitle"></h2>
-                <p class="videoSource"><span>来源：{{scope.row.sourceWeb}}</span><span>发布时间：{{scope.row.videoDate}}</span></p>
+                <p class="videoSource"><span>来源：{{scope.row.sourceWeb}}</span><span>新闻时间：{{scope.row.newsDate}}</span></p>
               </el-card>
             </template>
           </el-table-column>
@@ -54,13 +54,13 @@
                   </div>
                 </div>
                 <h2 class="videoTitle" v-html="scope.row.newsTitle" :title="scope.row.newsTitle"></h2>
-                <p class="videoSource"><span>来源：{{scope.row.sourceWeb}}</span><span>发布时间：{{scope.row.videoDate}}</span></p>
+                <p class="videoSource"><span>来源：{{scope.row.sourceWeb}}</span><span>新闻时间：{{scope.row.newsDate}}</span></p>
               </el-card>
             </template>
           </el-table-column>
           <el-table-column prop="auditStatus" label="状态" width="100" align="center">
           </el-table-column>
-          <el-table-column prop="videoDate" label="创建时间" width="120" align="center">
+          <el-table-column prop="videoDate" label="发布时间" width="120" align="center">
           </el-table-column>
           <el-table-column label="操作" width="160" align="center">
             <template slot-scope="scope">
@@ -107,7 +107,8 @@ export default {
         const ret = res.data
         this.tableData = ret.rows
         this.tableData.forEach(item => {
-          item.videoDate = item.newsDate.slice(0, 10)
+          item.videoDate = item.earlyTrackDate.slice(0, 10)
+          item.newsDate = item.newsDate.slice(0, 10)
           item.auditStatus = '未发布'
           item.videoTimeLong = this.formatTime(item.videoTimeLong)
         })
@@ -123,7 +124,8 @@ export default {
         const ret = res.data
         this.tableData2 = ret.rows
         this.tableData2.forEach(item => {
-          item.videoDate = item.newsDate.slice(0, 10)
+          item.videoDate = item.auditTime.slice(0, 10)
+          item.newsDate = item.newsDate.slice(0, 10)
           item.auditStatus = '已发布'
           item.videoTimeLong = this.formatTime(item.videoTimeLong)
         })
@@ -151,7 +153,8 @@ export default {
           this.tableData = ret
           this.totalVideo = this.tableData.length
           this.tableData.forEach(item => {
-            item.videoDate = item.newsDate.slice(0, 10)
+            item.newsDate = item.newsDate.slice(0, 10)
+            item.videoDate = item.earlyTrackDate.slice(0, 10)
             item.auditStatus = '未发布'
             item.videoTimeLong = this.formatTime(item.videoTimeLong)
           })
@@ -161,7 +164,8 @@ export default {
           this.tableData2 = ret
           this.totalVideo2 = this.tableData2.length
           this.tableData2.forEach(item => {
-            item.videoDate = item.newsDate.slice(0, 10)
+            item.videoDate = item.auditTime.slice(0, 10)
+            item.newsDate = item.newsDate.slice(0, 10)
             item.auditStatus = '已发布'
             item.videoTimeLong = this.formatTime(item.videoTimeLong)
           })
@@ -206,7 +210,8 @@ export default {
       this.tableData = ret.rows
       this.totalVideo = ret.total
       this.tableData.forEach(item => {
-        item.videoDate = item.newsDate.slice(0, 10)
+        item.newsDate = item.newsDate.slice(0, 10)
+        item.videoDate = item.earlyTrackDate.slice(0, 10)
         item.videoTimeLong = this.formatTime(item.videoTimeLong)
         item.auditStatus = '未发布'
       })
@@ -217,7 +222,8 @@ export default {
       this.tableData2 = ret.rows
       this.totalVideo2 = ret.total
       this.tableData2.forEach(item => {
-        item.videoDate = item.newsDate.slice(0, 10)
+        item.videoDate = item.auditTime.slice(0, 10)
+        item.newsDate = item.newsDate.slice(0, 10)
         item.videoTimeLong = this.formatTime(item.videoTimeLong)
         item.auditStatus = '已发布'
       })
@@ -243,7 +249,8 @@ export default {
             this.tableData = ret.rows
             this.totalVideo = ret.total
             this.tableData.forEach(item => {
-              item.videoDate = item.newsDate.slice(0, 10)
+              item.newsDate = item.newsDate.slice(0, 10)
+              item.videoDate = item.earlyTrackDate.slice(0, 10)
               item.auditStatus = '未发布'
               item.videoTimeLong = this.formatTime(item.videoTimeLong)
             })
@@ -254,7 +261,8 @@ export default {
             this.tableData2 = ret.rows
             this.totalVideo2 = ret.total
             this.tableData2.forEach(item => {
-              item.videoDate = item.newsDate.slice(0, 10)
+              item.videoDate = item.auditTime.slice(0, 10)
+              item.newsDate = item.newsDate.slice(0, 10)
               item.auditStatus = '已发布'
               item.videoTimeLong = this.formatTime(item.videoTimeLong)
             })

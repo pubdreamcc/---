@@ -143,6 +143,7 @@ export default {
     }
     .el-button{
       margin-top: 15px;
+      margin-left: 15px;
     }
     .video-js{
       width: 80%;
